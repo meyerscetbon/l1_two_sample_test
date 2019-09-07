@@ -24,7 +24,7 @@ def sf_naka(J,x):
 
 
 
-def test_asymptotic(X,Y,test_locs,gwith2,alpha):
+def test_asymptotic_ME(X,Y,test_locs,gwith2,alpha):
 
     n,d = X.shape
     m,d = Y.shape
@@ -170,7 +170,7 @@ def initial2_T_gwidth2(X,Y,n_test_locs):
 
 
 
-    def gain_1(param):
+    def gain(param):
 
         t = n+m
         ro = n/t
@@ -203,7 +203,7 @@ def initial2_T_gwidth2(X,Y,n_test_locs):
     powers = np.zeros(len(list_gwidth2))
 
     for wi, gwidth2 in enumerate(list_gwidth2):
-        powers[wi]=gain_1(gwidth2)
+        powers[wi]=gain(gwidth2)
 
     best=np.argmax(powers)
     gwidth2=list_gwidth2[best]
@@ -212,7 +212,7 @@ def initial2_T_gwidth2(X,Y,n_test_locs):
 
 
 
-def solver(X,Y,n_test_locs,max_iter=300,
+def solver_ME(X,Y,n_test_locs,max_iter=300,
         T_step_size=1, gwidth_step_size=0.1,
         tol_fun=1e-4):
 #return T, and gwidth
@@ -436,7 +436,7 @@ def initial3_T_gwidth2(X,Y,n_test_locs):
         T0 = np.vstack((Tx, Ty))
 
 
-    def gain_1(param):
+    def gain(param):
 
         t = n + m
         ro = n/t
@@ -484,7 +484,7 @@ def initial3_T_gwidth2(X,Y,n_test_locs):
     powers = np.zeros(len(list_gwidth2))
 
     for wi, gwidth2 in enumerate(list_gwidth2):
-        powers[wi]=gain_1(gwidth2)
+        powers[wi]=gain(gwidth2)
 
     best = np.argmax(powers)
     gwidth2 = list_gwidth2[best]
@@ -502,7 +502,7 @@ def initial4_T_gwidth2(X,Y,n_test_locs):
 
     T0 = np.random.randn(J, d)
 
-    def gain_1(param):
+    def gain(param):
 
         t = n + m
         ro= n / t
@@ -555,7 +555,7 @@ def initial4_T_gwidth2(X,Y,n_test_locs):
     powers = np.zeros(len(list_gwidth2))
 
     for wi, gwidth2 in enumerate(list_gwidth2):
-        powers[wi]=gain_1(gwidth2)
+        powers[wi]=gain(gwidth2)
 
     best = np.argmax(powers)
     gwidth2 = list_gwidth2[best]

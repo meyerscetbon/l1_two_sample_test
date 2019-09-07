@@ -3,6 +3,7 @@ import torch
 from scipy.linalg import sqrtm
 
 
+
 def gauss_kernel(X, test_locs, gwidth2):
     """Compute a X.shape[0] x test_locs.shape[0] Gaussian kernel matrix"""
     n, d = X.shape

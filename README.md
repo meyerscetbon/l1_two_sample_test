@@ -1,1 +1,6 @@
 # L1_test
+
+We consider two sample tests: given two samples independently and identically distributed (i.i.d.) according to two probability measures $P$ and $Q$, the goal of a two-sample test is to decide whether $P$ is different from $Q$ on the basis of the samples. We take advantage of the $L_1$ geometry and derive a finite
+dimensional approximation of a particular metric given as the $\ell_1$ norm of a vector which captures differences between distributions at random locations. The locations can be chosen to maximize a lower bound on test power for a statistical test using these locations.
+
+This repository contains a Python implementation of the $\ell_1$-based tests presented in our paper.

@@ -6,6 +6,24 @@ import l1_two_sample_test
 
 
 def compute_stat_ME(X, Y, T_1, T_2, gwidth2):
+    """ L1-based two-sample statistic using the mean embeddings
+    functions, evaluated at two locations: T_1 and T_2.
+    Use Gaussian kernel.
+    ----------
+    X : array-like, shape = [n_samples_1, n_features]
+        Samples from distribution P
+    Y : array-like, shape = [n_samples_2, n_features]
+        Samples from distribution Q
+    T_1 : array-like, shape = [n_features]
+    T_2 : array-like, shape = [n_features]
+    gwidth2 : float
+        The square Gaussian width of the Radial basis function kernel
+    Return
+    -------
+    S : float
+        The statistic of the test
+    """
+
     test_locs = np.vstack((T_1, T_2))
 
     n, d = X.shape

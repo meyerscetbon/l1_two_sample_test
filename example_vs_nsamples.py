@@ -13,8 +13,25 @@ labels = ["L1_opt_J_ME", "L1_grid_J_ME", "L1_opt_J_SCF", "L1_grid_J_SCF"]
 num_of_tests = len(labels)
 
 
-def proba_above_tresh_GMD(seed, method, num_sample_test, dim, my=1):
-
+def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
+    """
+    Compute the type-II error in the GMD problem:
+    P = N(0, I) and Q = N( (my,0,0, 000), I).
+    Only the first dimension of the means  differ.
+    ----------
+    num_sample_test : integer
+        Test sample size
+    dim : integer
+        Dimension of the problem
+    num_of_tests : integer
+        Number of l1-based tests
+    my : float
+        The difference between the first coordinates of the two distributions.
+    Return
+    -------
+    tests_error : array-like, shape = [num_of_tests]
+        Indicate if the tests rejected correctly the null hypothesis
+    """
     tests_error = np.zeros(num_of_tests)
 
     np.random.seed(seed)
@@ -49,7 +66,7 @@ def proba_above_tresh_GMD(seed, method, num_sample_test, dim, my=1):
     test = l1_two_sample_test.test_asymptotic_SCF(X_te, Y_te, test_locs, gwidth2, alpha)
     if test["h0_rejected"] == False:
         tests_error[2] = 1
-    # #########################
+
 
     # L1_grid_J_SCF
     test_locs, gwidth2 = l1_two_sample_test.initial4_T_gwidth2(X_tr, Y_tr, J)
@@ -57,19 +74,19 @@ def proba_above_tresh_GMD(seed, method, num_sample_test, dim, my=1):
     if test["h0_rejected"] == True:
         tests_error[3] = 1
 
-    return [tests_error]
+    return tests_error
 
 
 with open("l1_test_vs_nsample.csv", "w") as file:
 
     for num_sample_test in num_samples_test:
         compute_Para = Parallel(n_jobs=1)(
-            delayed(proba_above_tresh_GMD)(seed, method, num_sample_test, dim)
+            delayed(proba_above_tresh_GMD)(seed, num_sample_test, dim, num_of_tests)
             for seed in range(1)
         )
 
         for result in compute_Para:
-            s1 = ",".join(str(e) for e in result[0])
+            s1 = ",".join(str(e) for e in result)
             s = method + "," + str(num_sample_test) + "," + s1 + "\n"
 
             file.write(s)

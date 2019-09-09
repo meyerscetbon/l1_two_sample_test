@@ -5,7 +5,6 @@ from joblib import Parallel, delayed
 alpha = 0.01
 J = 5
 
-
 method = "GMD"
 dim = 100
 num_samples_test = np.arange(500, 6000, 500)

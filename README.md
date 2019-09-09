@@ -8,5 +8,4 @@ We consider two sample tests: given two samples independently and identically di
 
 This repository contains a Python implementation of the L1-based tests presented in our paper.
 
-
-![Here is a description](informative.png)
+We show the [figure](informative.png)

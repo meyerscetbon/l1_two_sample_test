@@ -83,4 +83,4 @@ plt.xticks([])
 plt.yticks([])
 plt.show()
 
-fig.savefig("informative.pdf")
+fig.savefig("informative.png")

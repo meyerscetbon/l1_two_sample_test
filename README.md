@@ -8,4 +8,7 @@ We consider two sample tests: given two samples independently and identically di
 
 This repository contains a Python implementation of the L1-based tests presented in our paper.
 
+# Example
+Here we show that the optimization of the proxy for the test power in the l1 case is informative for revealing the difference of the two samples. When one location is fixed (black triangle) the proxy is maximized when the other location 
+is placed in the other region that captures the difference of the two samples i.e., the region in which the probability masses of P and Q have less overlap.
 ![figure](informative.png)

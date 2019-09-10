@@ -2,6 +2,7 @@ import numpy as np
 import l1_two_sample_test
 from joblib import Parallel, delayed
 
+
 alpha = 0.01
 J = 5
 
@@ -11,6 +12,7 @@ num_samples_test = np.arange(500, 6000, 500)
 
 labels = ["L1_opt_J_ME", "L1_grid_J_ME", "L1_opt_J_SCF", "L1_grid_J_SCF"]
 num_of_tests = len(labels)
+
 
 
 def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
@@ -35,6 +37,7 @@ def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
     tests_error = np.zeros(num_of_tests)
 
     np.random.seed(seed)
+
     X = np.random.multivariate_normal(np.zeros(dim), np.eye(dim), 2 * num_sample_test)
 
     mean_shift = np.zeros(dim)

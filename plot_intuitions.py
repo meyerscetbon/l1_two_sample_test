@@ -1,3 +1,8 @@
+"""
+Plot simple figures to give intuitions, for use in posters or
+presentations.
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -17,9 +22,10 @@ def gauss_kernel(X, test_locs, gwidth2):
 
 
 dim = 2
-num_samples = 300
+num_samples = 200
 my = 1
 
+np.random.seed(3)
 X = np.random.multivariate_normal(np.zeros(dim), np.eye(dim), num_samples)
 x1min = X[:, 0].min()
 x1max = X[:, 0].max()
@@ -56,7 +62,7 @@ Z_2 = np.reshape(kernel_2, T_1.shape)
 Z_diff = np.abs(Z_1 - Z_2)
 
 
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(4, 2.5))
 contours_1 = plt.contour(T_1, T_2, Z_1, 2, colors="green", linestyles="-.")
 # plt.clabel(contours_1, inline=True, fontsize=8)
 contours_2 = plt.contour(T_1, T_2, Z_2, 2, colors="blue", linestyles="-.")
@@ -70,6 +76,8 @@ ax.plot(Y[:, 0], Y[:, 1], "bx", markersize=3, label="Q")
 ax.set_xlim([z1min, z1max])
 ax.set_ylim([z2min, z2max])
 plt.axis("off")
-# plt.subplots(left=0, right=1, bottom=0, top=1)
+plt.subplots_adjust(left=0, right=1, bottom=0, top=1)
 plt.show()
 fig.savefig("plot_contour.jpg")
+fig.savefig("plot_contour.pdf")
+

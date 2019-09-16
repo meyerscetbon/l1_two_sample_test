@@ -63,16 +63,25 @@ Z_diff = np.abs(Z_1 - Z_2)
 
 
 fig, ax = plt.subplots(figsize=(4, 2.5))
-contours_1 = plt.contour(T_1, T_2, Z_1, 2, colors="green", linestyles="-.")
-# plt.clabel(contours_1, inline=True, fontsize=8)
-contours_2 = plt.contour(T_1, T_2, Z_2, 2, colors="blue", linestyles="-.")
-# plt.clabel(contours_2, inline=True, fontsize=8)
+contours_1 = plt.contour(T_1, T_2, Z_1, 2, colors="C0", linestyles="-.",
+                         linewidths=2)
+contours_2 = plt.contour(T_1, T_2, Z_2, 2, colors="C1", linestyles="-.",
+                         linewidths=2)
+#img = plt.pcolormesh(
+#    T_1, T_2, Z_diff, cmap="gray_r")
+# imshow code rather than pcolormesh: it produces better figures
+img = plt.imshow(Z_diff.T,
+                 extent=(T_2.min(), T_2.max(), T_1.min(), T_1.max()),
+                 origin='lower',
+                 cmap="gray_r",
+                 aspect='auto',
+                 )
 contours_3 = plt.contour(
-    T_1, T_2, Z_diff, 2, colors="red", linestyles="-", linewidth=100
+    T_1, T_2, Z_diff, 2, colors="k", linestyles="-", linewidths=.8,
 )
-plt.clabel(contours_3, inline=True, fontsize=8)
-ax.plot(X[:, 0], X[:, 1], "go", markersize=3, label="P")
-ax.plot(Y[:, 0], Y[:, 1], "bx", markersize=3, label="Q")
+#plt.clabel(contours_3, inline=True, fontsize=8)
+ax.plot(X[:, 0], X[:, 1], "o", color="C0", markersize=4, label="P")
+ax.plot(Y[:, 0], Y[:, 1], "x", color="C1", markersize=5, label="Q")
 ax.set_xlim([z1min, z1max])
 ax.set_ylim([z2min, z2max])
 plt.axis("off")

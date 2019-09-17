@@ -70,6 +70,7 @@ contours_2 = plt.contour(T_1, T_2, Z_2, 2, colors="C1", linestyles="-.", linewid
 # img = plt.pcolormesh(
 #    T_1, T_2, Z_diff, cmap="gray_r")
 # imshow code rather than pcolormesh: it produces better figures
+<<<<<<< HEAD
 img = plt.imshow(
     Z_diff.T,
     extent=(T_2.min(), T_2.max(), T_1.min(), T_1.max()),
@@ -77,6 +78,14 @@ img = plt.imshow(
     cmap="gray_r",
     aspect="auto",
 )
+=======
+img = plt.imshow(Z_diff.T,
+                 extent=(T_1.min(), T_1.max(), T_2.min(), T_2.max()),
+                 origin='lower',
+                 cmap="gray_r",
+                 aspect='auto',
+                 )
+>>>>>>> 95977547399701bd6996d4054de32cf3bb7db28c
 contours_3 = plt.contour(
     T_1, T_2, Z_diff, 2, colors="k", linestyles="-", linewidths=0.8
 )

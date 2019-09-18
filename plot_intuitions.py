@@ -122,20 +122,30 @@ coor_0 = [0, 0]
 d1 = [1, 0]
 d2 = [np.sqrt(1 / 2), np.sqrt(1 / 2)]
 
-fig, ax = plt.subplots(figsize=(4, 4))
+fig, ax = plt.subplots(figsize=(2, 2))
 ax.plot(L1_unit[:, 0], L1_unit[:, 1], "-", color="C1")
-ax.plot(L2_unit[:, 0], L2_unit[:, 1], "-", color="C2")
 ax.plot(L1_root2[:, 0], L1_root2[:, 1], "-", color="C1")
+ax.plot(L2_unit[:, 0], L2_unit[:, 1], "-", color="C0")
 ax.spines["left"].set_position("center")
 ax.spines["bottom"].set_position("center")
 ax.spines["right"].set_color("none")
 ax.spines["top"].set_color("none")
 ax.xaxis.set_ticks_position("bottom")
 ax.yaxis.set_ticks_position("left")
+plt.xlim(-1.5, 1.5)
+plt.ylim(-1.5, 1.5)
 plt.xticks([], [])
 plt.yticks([], [])
+ax.annotate('$\ell_1$', xy=(.2, 1.3), xytext=(1, 1.5),
+            arrowprops=dict(facecolor='C1', edgecolor='none', shrink=0.05),
+            )
+ax.annotate('$\ell_2$', xy=(.8, .8), xytext=(1.3, 1.1),
+            arrowprops=dict(facecolor='C0', edgecolor='none', shrink=0.05),
+            )
 plt.show()
+plt.tight_layout(pad=.01)
 fig.savefig("plot_l1_vs_l2.jpg")
+fig.savefig("plot_l1_vs_l2.pdf")
 
 
 ##### Weak Convergence #####
@@ -191,3 +201,4 @@ plt.axis("off")
 ax.legend()
 plt.show()
 fig.savefig("witness_dirac.jpg")
+fig.savefig("witness_dirac.pdf")

@@ -123,9 +123,9 @@ d1 = [1, 0]
 d2 = [np.sqrt(1 / 2), np.sqrt(1 / 2)]
 
 fig, ax = plt.subplots(figsize=(2, 2))
-ax.plot(L1_unit[:, 0], L1_unit[:, 1], "-", color="C1")
-ax.plot(L1_root2[:, 0], L1_root2[:, 1], "-", color="C1")
-ax.plot(L2_unit[:, 0], L2_unit[:, 1], "-", color="C0")
+ax.plot(L1_unit[:, 0], L1_unit[:, 1], "-", color="C2")
+ax.plot(L1_root2[:, 0], L1_root2[:, 1], "--", color="C2")
+ax.plot(L2_unit[:, 0], L2_unit[:, 1], "-", color="C3")
 ax.spines["left"].set_position("center")
 ax.spines["bottom"].set_position("center")
 ax.spines["right"].set_color("none")
@@ -136,13 +136,17 @@ plt.xlim(-1.5, 1.5)
 plt.ylim(-1.5, 1.5)
 plt.xticks([], [])
 plt.yticks([], [])
-ax.annotate('$\ell_1$', xy=(.2, 1.3), xytext=(1, 1.5),
-            arrowprops=dict(facecolor='C1', edgecolor='none', shrink=0.05),
+ax.annotate('$\ell_1$', xy=(-.8, .2), xytext=(-1.55, .65),
+            arrowprops=dict(facecolor='C2', edgecolor='none',
+                            headwidth=8, width=2),
+            size=16,
             )
-ax.annotate('$\ell_2$', xy=(.8, .8), xytext=(1.3, 1.1),
-            arrowprops=dict(facecolor='C0', edgecolor='none', shrink=0.05),
+ax.annotate('$\ell_2$', xy=(-.7, .8), xytext=(-1.45, 1.25),
+            arrowprops=dict(facecolor='C3', edgecolor='none',
+                            headwidth=8, width=2),
+            size=16,
             )
-plt.show()
+plt.axis('equal')
 plt.tight_layout(pad=.01)
 fig.savefig("plot_l1_vs_l2.jpg")
 fig.savefig("plot_l1_vs_l2.pdf")
@@ -184,7 +188,7 @@ mean_Y = mean_Y.mean(axis=0)
 
 witness = mean_X - mean_Y
 
-
+# Fig with dots
 fig, ax = plt.subplots(1, 1)
 plt.scatter(X, Z, s=100, color="b")  # ,label='P')
 plt.scatter(Y, Z, s=100, color="r")  # ,label='Q')
@@ -202,3 +206,40 @@ ax.legend()
 plt.show()
 fig.savefig("witness_dirac.jpg")
 fig.savefig("witness_dirac.pdf")
+
+# Fig with dirac 
+fig, ax = plt.subplots(figsize=(4, 1.7))
+plt.plot([-10, 10], [0, 0], color=".5")
+plt.plot([X[0], X[0]], [0, 1.3], color="C0", label='P')
+plt.plot([Y[0], Y[0]], [0, 1.3], color="C1", label='Q')
+
+ax.legend(loc="upper left", borderaxespad=0.5, frameon=False, ncol=4,
+          handlelength=2)
+plt.xlim(xmin=-3, xmax=4)
+plt.ylim(ymin=-.1, ymax=1.6)
+plt.subplots_adjust(left=.01, right=.99, bottom=.01, top=.99)
+plt.axis("off")
+fig.savefig("witness_lines_1.pdf")
+
+plt.plot(t, mean_X, color="C0", label='P embedding')
+plt.plot(t, mean_Y, color="C1")
+ax.legend(loc="upper left", borderaxespad=0.5, frameon=False, ncol=4,
+          handlelength=2)
+plt.xlim(xmin=-3, xmax=4)
+plt.ylim(ymin=-.1, ymax=1.6)
+plt.subplots_adjust(left=.01, right=.99, bottom=.01, top=.99)
+plt.axis("off")
+fig.savefig("witness_lines_2.pdf")
+
+
+plt.plot(t, np.abs(witness), color="k", linestyle="-.",label="Witness")
+ax.legend(loc="upper left", borderaxespad=0.5, frameon=False, ncol=4,
+          handlelength=1.9, handletextpad=.2)
+
+plt.xlim(xmin=-3, xmax=4)
+plt.ylim(ymin=-.1, ymax=1.6)
+plt.subplots_adjust(left=.01, right=.99, bottom=.01, top=.99)
+plt.axis("off")
+plt.show()
+fig.savefig("witness_lines.jpg")
+fig.savefig("witness_lines.pdf")

@@ -1,5 +1,9 @@
+"""Example of the l1-based tests in the Gaussian Mean Difference Problem.
+"""
+
 import numpy as np
 import l1_two_sample_test
+import matplotlib.pyplot as plt
 
 dim = 2
 num_sample_test = 2000
@@ -17,6 +21,13 @@ Ite = np.logical_not(Itr)
 
 X_tr, Y_tr = X[Itr, :], Y[Itr, :]
 X_te, Y_te = X[Ite, :], Y[Ite, :]
+
+# Plot the data
+plt.plot(X[:, 0], X[:, 1], "b.", markeredgecolor="b", label="$X\sim P$", alpha=0.5)
+plt.plot(Y[:, 0], Y[:, 1], "r.", markeredgecolor="r", label="$Y\sim Q$", alpha=0.5)
+plt.axis("equal")
+plt.legend()
+plt.show()
 
 # L1_opt_J_ME
 test_locs, gwidth2 = l1_two_sample_test.solver_ME(X_tr, Y_tr)

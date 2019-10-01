@@ -1,4 +1,4 @@
-"""
+""" Compute the l1-based tests in the Gaussian Mean Difference Problem.
 """
 
 import numpy as np

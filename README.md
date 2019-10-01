@@ -8,6 +8,9 @@ We consider two sample tests: given two samples independently and identically di
 
 This repository contains a Python implementation of the L1-based tests presented in the [paper](https://arxiv.org/abs/1909.09264).
 
+Try it online:
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/meyerscetbon/l1_two_sample_test/master)
+
 # Example
 
 The figure below shows that test locations chosen via the optimization of

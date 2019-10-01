@@ -5,60 +5,9 @@ distributions.
 """
 
 import numpy as np
-from scipy.linalg import sqrtm
 import matplotlib.pyplot as plt
 import matplotlib
-
 import l1_two_sample_test
-
-
-def compute_stat_ME(X, Y, T_1, T_2, gwidth2):
-    """ L1-based two-sample statistic using the mean embeddings
-    functions, evaluated at two locations: T_1 and T_2.
-    Use Gaussian kernel.
-
-    Parameters
-    ----------
-    X : array-like, shape = [n_samples_1, n_features]
-        Samples from distribution P
-    Y : array-like, shape = [n_samples_2, n_features]
-        Samples from distribution Q
-    T_1 : array-like, shape = [n_features]
-    T_2 : array-like, shape = [n_features]
-    gwidth2 : float
-        The square Gaussian width of the Radial basis function kernel
-
-    Return
-    -------
-    S : float
-        The statistic of the test
-    """
-
-    test_locs = np.vstack((T_1, T_2))
-
-    n, d = X.shape
-    m, d = Y.shape
-    J, d = test_locs.shape
-
-    t = n + m
-    ro = n / t
-
-    z_1 = l1_two_sample_test.gauss_kernel(X, test_locs, gwidth2)  # num_samples*J
-    cov_1 = np.cov(z_1.T)
-
-    z_2 = l1_two_sample_test.gauss_kernel(Y, test_locs, gwidth2)
-    cov_2 = np.cov(z_2.T)
-
-    cov = (1 / ro) * cov_1 + (1 / (1 - ro)) * cov_2
-
-    reg = 1e-5
-    S = np.mean(z_1, axis=0) - np.mean(z_2, axis=0)
-    S = np.sqrt(t) * np.linalg.solve(sqrtm(cov + reg * np.eye(J)), S)
-
-    S = np.sum(np.abs(S))
-
-    return S
-
 
 # Full sample size
 n = 500
@@ -93,7 +42,7 @@ xf, yf = np.meshgrid(x, y)
 Z = np.zeros((npts, npts))
 for i in range(npts):
     for j in range(npts):
-        Z[i, j] = compute_stat_ME(X, Y, T_1, np.hstack((xf[i, j], yf[i, j])), gwidth2)
+        Z[i, j] = l1_two_sample_test.compute_stat_ME(X, Y, np.vstack((T_1, (xf[i, j], yf[i, j]))), gwidth2)
 
 
 fig, ax = plt.subplots(1, 1, figsize=(6, 4))

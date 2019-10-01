@@ -52,7 +52,56 @@ def sf_naka(J, x):
     return res
 
 
-def test_asymptotic_ME(X, Y, test_locs, gwidth2, alpha):
+def compute_stat_ME(X, Y, test_locs, gwidth2):
+    """ L1-based two-sample statistic using the mean embeddings
+    functions, evaluated at a finite set of test locations.
+    Use Gaussian kernel.
+
+    Parameters
+    ----------
+    X : array-like, shape = [n_samples_1, n_features]
+        Samples from distribution P
+    Y : array-like, shape = [n_samples_2, n_features]
+        Samples from distribution Q
+    test_locs : array-like, shape = [n_locations, n_features]
+        Finite set of test locations
+    gwidth2 : float
+        The square Gaussian width of the Radial basis function kernel
+
+    Return
+    -------
+    S : float
+        The statistic of the test
+    """
+
+    n, d = X.shape
+    m, d = Y.shape
+    J, d = test_locs.shape
+
+    t = n + m
+    ro = n / t
+
+    z_1 = gauss_kernel(X, test_locs, gwidth2)  # num_samples*J
+    cov_1 = np.cov(z_1.T)
+
+    z_2 = gauss_kernel(Y, test_locs, gwidth2)
+    cov_2 = np.cov(z_2.T)
+
+    cov = (1 / ro) * cov_1 + (1 / (1 - ro)) * cov_2
+
+    reg = 1e-5
+    S = np.mean(z_1, axis=0) - np.mean(z_2, axis=0)
+    if J > 1:
+        S = np.sqrt(t) * np.linalg.solve(sqrtm(cov + reg * np.eye(J)), S)
+    else:
+        S = np.sqrt(t) * np.sqrt(1 / cov) * S
+
+    S = np.sum(np.abs(S))
+
+    return S
+
+
+def test_asymptotic_ME(X, Y, test_locs, gwidth2, alpha=0.01):
     """ L1-based two-sample test using the mean embeddings
     functions, evaluated at a finite set of test locations.
     Use Gaussian kernel.
@@ -72,30 +121,8 @@ def test_asymptotic_ME(X, Y, test_locs, gwidth2, alpha):
     results : dictionary
     {alpha: float, pvalue: float, h0_rejected: Boolean, test: float}
     """
-
-    n, d = X.shape
-    m, d = Y.shape
     J, d = test_locs.shape
-
-    t = n + m
-    ro = n / t
-
-    z_1 = gauss_kernel(X, test_locs, gwidth2)
-    cov_1 = np.cov(z_1.T)
-
-    z_2 = gauss_kernel(Y, test_locs, gwidth2)
-    cov_2 = np.cov(z_2.T)
-
-    cov = (1 / ro) * cov_1 + (1 / (1 - ro)) * cov_2
-
-    reg = 1e-5
-    S = np.mean(z_1, axis=0) - np.mean(z_2, axis=0)
-    if J > 1:
-        S = np.sqrt(t) * np.linalg.solve(sqrtm(cov + reg * np.eye(J)), S)
-    else:
-        S = np.sqrt(t) * np.sqrt(1 / cov) * S
-
-    S = np.sum(np.abs(S))
+    S = compute_stat_ME(X, Y, test_locs, gwidth2)
     p_value = sf_naka(J, S)
 
     results = {
@@ -301,7 +328,7 @@ def initial2_T_gwidth2(X, Y, n_test_locs):
 
 
 def solver_ME(
-    X, Y, n_test_locs, max_iter=300, T_step_size=1, gwidth_step_size=0.1, tol_fun=1e-4
+    X, Y, n_test_locs = 5, max_iter=300, T_step_size=1, gwidth_step_size=0.1, tol_fun=1e-4
 ):
     """
     Optimize the test locations and the Gaussian kernel width by
@@ -449,27 +476,27 @@ def solver_ME(
     return (T, gwidth2)
 
 
-def test_asymptotic_SCF(X, Y, test_locs, gwith2, alpha):
-    """ L1-based two-sample test using the smooth characteristic
-    functions, evaluated at a finite set of test locations.
+def compute_stat_SCF(X, Y, test_locs, gwidth2):
+    """ L1-based two-sample statistic using the smooth characteristic
+    functions, evaluated at a finite set of test frequencies.
     Use Gaussian kernel.
+
+    Parameters
     ----------
     X : array-like, shape = [n_samples_1, n_features]
         Samples from distribution P
     Y : array-like, shape = [n_samples_2, n_features]
         Samples from distribution Q
     test_locs : array-like, shape = [n_locations, n_features]
-        Finite set of test locations
+        Finite set of test frequencies
     gwidth2 : float
         The square Gaussian width of the Radial basis function kernel
-    alpha : float
-        The level of the test
+
     Return
     -------
-    results : dictionary
-    {alpha: float, pvalue: float, h0_rejected: Boolean, test: float}
+    S : float
+        The statistic of the test
     """
-
     n, d = X.shape
     m, d = Y.shape
     J, d = test_locs.shape
@@ -477,8 +504,8 @@ def test_asymptotic_SCF(X, Y, test_locs, gwith2, alpha):
     t = n + m
     ro = n / t
 
-    X_scale = X / np.sqrt(gwith2)
-    Y_scale = Y / np.sqrt(gwith2)
+    X_scale = X / np.sqrt(gwidth2)
+    Y_scale = Y / np.sqrt(gwidth2)
 
     fx = np.exp(-np.sum(X_scale ** 2, 1) / 2).reshape(n, 1)
     fy = np.exp(-np.sum(Y_scale ** 2, 1) / 2).reshape(m, 1)
@@ -505,6 +532,33 @@ def test_asymptotic_SCF(X, Y, test_locs, gwith2, alpha):
     S = np.sqrt(t) * np.linalg.solve(sqrtm(cov + reg * np.eye(2 * J)), S)
 
     S = np.sum(np.abs(S))
+
+    return S
+
+
+
+def test_asymptotic_SCF(X, Y, test_locs, gwidth2, alpha=0.01):
+    """ L1-based two-sample test using the smooth characteristic
+    functions, evaluated at a finite set of test frequencies.
+    Use Gaussian kernel.
+    ----------
+    X : array-like, shape = [n_samples_1, n_features]
+        Samples from distribution P
+    Y : array-like, shape = [n_samples_2, n_features]
+        Samples from distribution Q
+    test_locs : array-like, shape = [n_locations, n_features]
+        Finite set of test frequencies
+    gwidth2 : float
+        The square Gaussian width of the Radial basis function kernel
+    alpha : float
+        The level of the test
+    Return
+    -------
+    results : dictionary
+    {alpha: float, pvalue: float, h0_rejected: Boolean, test: float}
+    """
+    J, d = test_locs.shape
+    S = compute_stat_SCF(X, Y, test_locs, gwidth2)
     p_value = sf_naka(2 * J, S)
 
     results = {
@@ -712,7 +766,7 @@ def initial4_T_gwidth2(X, Y, n_test_locs):
 
 
 def solver_SCF(
-    X, Y, n_test_locs, max_iter=300, T_step_size=1, gwidth_step_size=0.1, tol_fun=1e-4
+    X, Y, n_test_locs=5, max_iter=300, T_step_size=1, gwidth_step_size=0.1, tol_fun=1e-4
 ):
 
     """

@@ -2,7 +2,6 @@
 """
 
 import numpy as np
-
 import l1_two_sample_test
 
 
@@ -86,7 +85,7 @@ with open("l1_test_vs_nsample.csv", "w") as file:
     for num_sample_test in num_samples_test:
 
         result = \
-            proba_above_tresh_GMD(seed=1,
+            proba_above_tresh_GMD(seed=500,
                                   num_sample_test=num_sample_test,
                                   dim=dim, num_of_tests=num_of_tests)
 

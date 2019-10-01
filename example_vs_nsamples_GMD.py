@@ -1,6 +1,7 @@
 import numpy as np
-import l1_two_sample_test
 from joblib import Parallel, delayed
+
+import l1_two_sample_test
 
 
 alpha = 0.01
@@ -12,7 +13,6 @@ num_samples_test = np.arange(500, 6000, 500)
 
 labels = ["L1_opt_J_ME", "L1_grid_J_ME", "L1_opt_J_SCF", "L1_grid_J_SCF"]
 num_of_tests = len(labels)
-
 
 
 def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
@@ -81,7 +81,6 @@ def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
 
 
 with open("l1_test_vs_nsample.csv", "w") as file:
-
     for num_sample_test in num_samples_test:
         compute_Para = Parallel(n_jobs=1)(
             delayed(proba_above_tresh_GMD)(seed, num_sample_test, dim, num_of_tests)

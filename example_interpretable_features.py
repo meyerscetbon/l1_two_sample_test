@@ -1,10 +1,14 @@
 """
+Demo the interpretable feature optimized to discriminate two
+distributions.
+
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.linalg import sqrtm
+import matplotlib.pyplot as plt
 import matplotlib
+
 import l1_two_sample_test
 
 
@@ -12,6 +16,8 @@ def compute_stat_ME(X, Y, T_1, T_2, gwidth2):
     """ L1-based two-sample statistic using the mean embeddings
     functions, evaluated at two locations: T_1 and T_2.
     Use Gaussian kernel.
+
+    Parameters
     ----------
     X : array-like, shape = [n_samples_1, n_features]
         Samples from distribution P
@@ -21,6 +27,7 @@ def compute_stat_ME(X, Y, T_1, T_2, gwidth2):
     T_2 : array-like, shape = [n_features]
     gwidth2 : float
         The square Gaussian width of the Radial basis function kernel
+
     Return
     -------
     S : float
@@ -90,9 +97,7 @@ for i in range(npts):
 
 
 fig, ax = plt.subplots(1, 1, figsize=(6, 4))
-
 cs = plt.contourf(xf, yf, Z, cmap="PuBuGn")
-
 norm_ = matplotlib.colors.Normalize(vmin=cs.cvalues.min(), vmax=cs.cvalues.max())
 sm = plt.cm.ScalarMappable(norm=norm_, cmap=cs.cmap)
 sm.set_array([])

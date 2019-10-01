@@ -1,3 +1,10 @@
+"""
+Implementation of the l1-based 2-sample tests, presented in
+
+Comparing distributions: l1 geometry improves kernel two-sample testing
+M Scetbon, G Varoquaux, NeurIPS 2019
+"""
+
 import numpy as np
 import torch
 from scipy.linalg import sqrtm

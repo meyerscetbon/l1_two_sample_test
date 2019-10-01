@@ -328,7 +328,7 @@ def initial2_T_gwidth2(X, Y, n_test_locs):
 
 
 def solver_ME(
-    X, Y, n_test_locs = 5, max_iter=300, T_step_size=1, gwidth_step_size=0.1, tol_fun=1e-4
+    X, Y, n_test_locs=5, max_iter=300, T_step_size=1, gwidth_step_size=0.1, tol_fun=1e-4
 ):
     """
     Optimize the test locations and the Gaussian kernel width by
@@ -534,7 +534,6 @@ def compute_stat_SCF(X, Y, test_locs, gwidth2):
     S = np.sum(np.abs(S))
 
     return S
-
 
 
 def test_asymptotic_SCF(X, Y, test_locs, gwidth2, alpha=0.01):

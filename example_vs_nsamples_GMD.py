@@ -71,7 +71,6 @@ def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
     if test["h0_rejected"] == False:
         tests_error[2] = 1
 
-
     # L1_grid_J_SCF
     test_locs, gwidth2 = l1_two_sample_test.initial4_T_gwidth2(X_tr, Y_tr, J)
     test = l1_two_sample_test.test_asymptotic_SCF(X_te, Y_te, test_locs, gwidth2, alpha)
@@ -84,10 +83,12 @@ def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
 with open("l1_test_vs_nsample.csv", "w") as file:
     for num_sample_test in num_samples_test:
 
-        result = \
-            proba_above_tresh_GMD(seed=500,
-                                  num_sample_test=num_sample_test,
-                                  dim=dim, num_of_tests=num_of_tests)
+        result = proba_above_tresh_GMD(
+            seed=500,
+            num_sample_test=num_sample_test,
+            dim=dim,
+            num_of_tests=num_of_tests,
+        )
 
         s1 = ",".join(str(e) for e in result)
         s = method + "," + str(num_sample_test) + "," + s1 + "\n"

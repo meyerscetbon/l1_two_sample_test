@@ -42,7 +42,9 @@ xf, yf = np.meshgrid(x, y)
 Z = np.zeros((npts, npts))
 for i in range(npts):
     for j in range(npts):
-        Z[i, j] = l1_two_sample_test.compute_stat_ME(X, Y, np.vstack((T_1, (xf[i, j], yf[i, j]))), gwidth2)
+        Z[i, j] = l1_two_sample_test.compute_stat_ME(
+            X, Y, np.vstack((T_1, (xf[i, j], yf[i, j]))), gwidth2
+        )
 
 
 fig, ax = plt.subplots(1, 1, figsize=(6, 4))

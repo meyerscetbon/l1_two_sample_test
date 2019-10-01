@@ -306,6 +306,8 @@ def solver_ME(
     """
     Optimize the test locations and the Gaussian kernel width by
     maximizing the test power.
+
+    Parameters
     ----------
     X : array-like, shape = [n_samples_1, n_features]
         Samples from distribution P

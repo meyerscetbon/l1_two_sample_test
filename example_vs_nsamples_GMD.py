@@ -1,5 +1,7 @@
+"""
+"""
+
 import numpy as np
-from joblib import Parallel, delayed
 
 import l1_two_sample_test
 
@@ -82,14 +84,14 @@ def proba_above_tresh_GMD(seed, num_sample_test, dim, num_of_tests, my=1):
 
 with open("l1_test_vs_nsample.csv", "w") as file:
     for num_sample_test in num_samples_test:
-        compute_Para = Parallel(n_jobs=1)(
-            delayed(proba_above_tresh_GMD)(seed, num_sample_test, dim, num_of_tests)
-            for seed in range(1)
-        )
 
-        for result in compute_Para:
-            s1 = ",".join(str(e) for e in result)
-            s = method + "," + str(num_sample_test) + "," + s1 + "\n"
+        result = \
+            proba_above_tresh_GMD(seed=1,
+                                  num_sample_test=num_sample_test,
+                                  dim=dim, num_of_tests=num_of_tests)
 
-            file.write(s)
-            file.flush()
+        s1 = ",".join(str(e) for e in result)
+        s = method + "," + str(num_sample_test) + "," + s1 + "\n"
+
+        file.write(s)
+        file.flush()

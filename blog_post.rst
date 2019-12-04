@@ -8,5 +8,5 @@ Comparing distributions: L1 geometry improves kernel two-sample testing @ NeurIP
 .. note::
 
     *This year we will have the chance to present our work at the thirty-third 
-    Conference on Neural Information Processing Systems:
+    Conference on Neural Information Processing Systems:*
     https://arxiv.org/pdf/1909.09264.pdf

@@ -3,6 +3,7 @@ Comparing distributions: L1 geometry improves kernel two-sample testing @ NeurIP
 
 :date: 2019-12-04
 :tags: conferences, machine learning, statistics 
+:authors: Meyer Scetbon, Gaël Varoquaux
 
 
 .. note::
